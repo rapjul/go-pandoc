@@ -3,7 +3,7 @@ package http
 import (
 	"bytes"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"strings"
 
@@ -107,7 +107,7 @@ func (p *HttpFetcher) send(params Params) (data []byte, err error) {
 		return
 	}
 
-	data, err = ioutil.ReadAll(resp.Body)
+	data, err = io.ReadAll(resp.Body)
 
 	for k, v := range params.Replace {
 		data = bytes.Replace(data, []byte(k), []byte(v), -1)

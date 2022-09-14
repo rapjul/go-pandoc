@@ -4,9 +4,9 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
-	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"sync"
 	"sync/atomic"
 	"text/template"
@@ -100,7 +100,7 @@ func (p *serverWrapper) Shutdown(ctx context.Context) error {
 
 	for num > 0 {
 		time.Sleep(time.Second)
-		timeDiff := time.Now().Sub(beginTime)
+		timeDiff := time.Since(beginTime)
 		if timeDiff > p.timeout {
 			break
 		}
@@ -327,8 +327,6 @@ func handlePandocToX(rw http.ResponseWriter, req *http.Request) {
 	}
 
 	writeResp(rw, args, ConvertResponse{0, "", ConvertData{Data: convData}})
-
-	return
 }
 
 func loadTemplates(tmplsConf config.Configuration) (err error) {
@@ -345,7 +343,7 @@ func loadTemplates(tmplsConf config.Configuration) (err error) {
 		tmpl := template.New(name).Funcs(funcMap)
 
 		var data []byte
-		data, err = ioutil.ReadFile(file)
+		data, err = os.ReadFile(file)
 
 		if err != nil {
 			return

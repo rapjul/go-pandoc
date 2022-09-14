@@ -3,7 +3,7 @@ package pandoc
 import (
 	"encoding/base64"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"mime"
 	"net/http"
 	"net/url"
@@ -81,7 +81,7 @@ func (p *File) downloadToFile() (fname string, err error) {
 		return
 	}
 
-	data, err := ioutil.ReadAll(resp.Body)
+	data, err := io.ReadAll(resp.Body)
 	if err != nil {
 		err = fmt.Errorf("read body from %s, error: %s", p.Url, err)
 		return
@@ -140,7 +140,7 @@ func (p *File) writeToTempFile(filename string, data []byte) (fname string, err 
 
 	tempFileName := filepath.Join(dir, filename)
 
-	err = ioutil.WriteFile(tempFileName, data, 0644)
+	err = os.WriteFile(tempFileName, data, 0644)
 
 	if err != nil {
 		err = fmt.Errorf("write file %s failure", tempFileName)

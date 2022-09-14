@@ -685,7 +685,7 @@ func (p *Pandoc) Convert(fetcherOpts FetcherOptions, convertOpts ConvertOptions)
 		}
 	}
 
-	tmpDir, err := ioutil.TempDir("", "go-pandoc")
+	tmpDir, err := os.MkdirTemp("", "go-pandoc")
 	if err != nil {
 		return
 	}

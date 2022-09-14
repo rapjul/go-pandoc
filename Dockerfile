@@ -1,4 +1,4 @@
-FROM idocking/pandoc:alpine-2.1.1
+FROM pandoc/core:2
 
 # Install golang and Install go-pandoc
 RUN apk update \
